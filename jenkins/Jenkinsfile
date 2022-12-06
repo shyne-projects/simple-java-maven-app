@@ -53,7 +53,10 @@ pipeline {
             }  
         }
         stage('deploy_prod') {
-            when { expression {params.select_enviroment == prod}}
+            //when { expression {params.select_enviroment == prod}}
+            when {
+                environment name: 'select_environment', value: 'prod'
+                }
             steps {
                 echo "This is deploy stage"
             }
