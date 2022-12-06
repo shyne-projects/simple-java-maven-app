@@ -11,10 +11,11 @@ pipeline {
             }
             post {
             success {
-                archiveArtifact artifacts: "**/target/*.war"
+                //archiveArtifact artifacts: "**/target/*.war"
+                echo "Build was a success"
             }
             }
-            
+
                    }
         stage('test') {
             steps {
