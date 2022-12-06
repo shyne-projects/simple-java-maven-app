@@ -15,9 +15,10 @@ pipeline {
                 echo "This is build stage"
                 sh 'mvn clean package'
             }
-           
+            
 
                    }
+                   
         stage('test') {
             
             parallel {
@@ -38,12 +39,7 @@ pipeline {
                      }
                 } 
                 
-                post {
-                    success {
-                        //archiveArtifact artifacts: "**/target/*.jar"
-                        echo "Build was a success"
-                    }
-                }                             
+                                         
             }  
         }
         stage('deploy') {
