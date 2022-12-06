@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    parameters {
+    string defaultValue: 'Dada', name: 'LASTNAME'
+    }
+    environment {
+        NAME = 'Shina'
+    }
     tools {
         maven 'Maven'
     }
@@ -9,19 +15,36 @@ pipeline {
                 echo "This is build stage"
                 sh 'mvn clean package'
             }
-            post {
-            success {
-                archiveArtifact artifacts: "**/target/*.jar"
-                echo "Build was a success"
-            }
-            }
+           
 
                    }
         stage('test') {
-            steps {
-                echo "This is test stage"
-            }
-
+            
+            parallel {
+                stage(TestA){
+                     steps {
+                        echo "This is test A"
+                        echo " My name is $NAME ${params.LASTNAME}"
+                     }
+                }
+                stage(TestB){
+                     steps {
+                        echo "This is test B"                
+                     }
+                }
+                stage(TestC){
+                     steps {
+                        echo "This is test stage C"
+                     }
+                } 
+                
+                post {
+                    success {
+                        //archiveArtifact artifacts: "**/target/*.jar"
+                        echo "Build was a success"
+                    }
+                }                             
+            }  
         }
         stage('deploy') {
             steps {
