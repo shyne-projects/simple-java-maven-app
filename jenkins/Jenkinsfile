@@ -52,16 +52,26 @@ pipeline {
                 }
             }  
         }
-        stage('deploy_prod') {
-            //when { expression {params.select_enviroment == prod}}
+        stage('deploy_dev') {
+            //when { expression {params.select_enviroment == dev}}
             when {
-                environment name: 'select_environment', value: 'prod'
+                environment name: 'select_environment', value: 'dev'
                 }
             steps {
-                echo "This is deploy stage"
+                echo "This is deploy dev stage"
             }
 
         }
+        stage('deploy_prod') {
+        //when { expression {params.select_enviroment == prod}}
+        when {
+            environment name: 'select_environment', value: 'prod'
+            }
+        steps {
+            echo "This is deploy prod stage"
+        }
+
+    }
     }
 
 }
