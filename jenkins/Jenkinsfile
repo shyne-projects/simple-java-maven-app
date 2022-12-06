@@ -11,7 +11,7 @@ pipeline {
             }
             post {
             success {
-                //archiveArtifact artifacts: "**/target/*.war"
+                archiveArtifact artifacts: "**/target/*.jar"
                 echo "Build was a success"
             }
             }
