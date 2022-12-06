@@ -2,6 +2,7 @@ pipeline {
     agent any
     parameters {
     string defaultValue: 'Dada', name: 'LASTNAME'
+    choice choices: ['dev', 'prod'], name: 'select_environment'
     }
     environment {
         NAME = 'Shina'
@@ -13,7 +14,7 @@ pipeline {
         stage('build') {
             steps {
                 echo "This is build stage"
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests=true'
             }
             
 
@@ -23,14 +24,17 @@ pipeline {
             
             parallel {
                 stage(TestA){
+                     agent any
                      steps {
                         echo "This is test A"
                         echo " My name is $NAME ${params.LASTNAME}"
+                        sh "mvn test"
                      }
                 }
                 stage(TestB){
                      steps {
-                        echo "This is test B"                
+                        echo "This is test B" 
+                        sh "mvn test"               
                      }
                 }
                 stage(TestC){
@@ -48,7 +52,8 @@ pipeline {
                 }
             }  
         }
-        stage('deploy') {
+        stage('deploy_prod') {
+            when { expression {params.select_enviroment == prod}}
             steps {
                 echo "This is deploy stage"
             }
