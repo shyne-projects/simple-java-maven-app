@@ -18,7 +18,7 @@ pipeline {
             
 
                    }
-                   
+
         stage('test') {
             
             parallel {
@@ -40,6 +40,12 @@ pipeline {
                 } 
                 
                                          
+            }  
+            post {
+                success {
+                    //archiveArtifact artifacts: "**/target/*.jar"
+                    echo "Build was a success"
+                }
             }  
         }
         stage('deploy') {
